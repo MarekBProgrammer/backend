@@ -4,13 +4,17 @@ const { syncDataToDB } = require('./database.js');
 const { instal } = require('./filter.js');
 const fs = require('fs');
 const { ReturnDocument } = require('mongodb');
+const auth = require('./autorization.js');
+require('dotenv').config();
+
+const PORT = process.env.PORT || 3000;
 
 const app = express();
-const port = 3000;
+const port = PORT;
 
 // call sync after DB connection established
 
-app.get('/orders', async (req, res) => {
+app.get('/orders', auth, async (req, res) => {
     try {
         const db = client.db('idosellDB');
         const collection = db.collection('orders');
@@ -45,7 +49,7 @@ app.get('/orders', async (req, res) => {
     }
 });
 
-app.get('/', async (req, res) => {
+app.get('/', auth, async (req, res) => {
     try {
         const db = client.db('idosellDB');
         const collection = db.collection('orders');
@@ -58,7 +62,7 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/:orderId', async (req, res) => {
+app.get('/order/:orderId', auth, async (req, res) => {
     try {
         const orderId = req.params.orderId;
         const db = client.db('idosellDB');

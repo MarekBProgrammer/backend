@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { client, connectDb } = require('./mangodb.js');
 
 let fetchFn;
@@ -7,8 +8,9 @@ if (typeof globalThis.fetch === 'function') {
     const nf = require('node-fetch');
     fetchFn = nf.default || nf;
 }
-const apiUrl = 'https://idosell.readme.io/reference/ordersordersget-1';
-const apiKey = 'YXBwbGljYXRpb24xNjpYeHI1K0MrNVRaOXBaY2lEcnpiQzBETUZROUxrRzFFYXZuMkx2L0RHRXZRdXNkcmF5R0Y3ZnhDMW1nejlmVmZP';
+
+const apiUrl = process.env.API_URL;
+const apiKey = process.env.API_KEY;
 
 async function fetchData(){
     const lastfetch = new Date(Date.now() - 120000).toISOString();
